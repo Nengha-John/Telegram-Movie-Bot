@@ -1,0 +1,82 @@
+Username: German Machine
+Request:  luca movie
+Time: 2021-07-17 11:43:09.737600Username: German Machine
+Request:  money heist
+Time: 2021-07-17 11:44:09.144583
+
+Username: German Machine
+Request:  money heist
+Time: 2021-07-17 11:45:04.427579
+
+Username: German Machine
+Request:  luca
+Time: 2021-07-17 11:45:20.287815
+
+Username: German Machine
+Request:  luca
+Time: 2021-07-17 11:47:08.108685
+
+Username: German Machine
+Request:  luca movie
+Time: 2021-07-17 11:48:53.882235
+
+Username: German Machine
+Request:  luca series
+Time: 2021-07-17 11:50:11.702892
+
+Username: German Machine
+Request:  luca
+Time: 2021-07-17 11:50:20.704861
+
+Username: German Machine
+Request:  luca
+Time: 2021-07-17 11:51:32.997185
+
+Username: German Machine
+Request:  luca movie
+Time: 2021-07-17 12:01:34.130819
+
+Username: German Machine
+Request:  luca series
+Time: 2021-07-17 12:02:24.880281
+
+Username: German Machine
+Request:  luca
+Time: 2021-07-17 12:02:34.561494
+
+Username: German Machine
+Request:  titanic
+Time: 2021-07-17 12:02:58.448576
+
+Username: Nenghajm
+Request:  black widow movie
+Time: 2021-07-17 21:46:48.612934
+
+Username: samatar1776
+Request: ["awake"]
+Time: 2021-07-17 21:56:23.109604
+
+Username: samatar1776
+Request: ["outside the wire"]
+Time: 2021-07-17 21:56:57.510945
+
+Username: None
+Request:  fatherhood
+Time: 2021-07-18 12:58:03.871963
+
+Username: Yvonne_CG
+Request:  black widow
+Time: 2021-07-18 13:00:48.743162
+
+Username: lioswin
+Request:  Amon ft Yvone
+Time: 2021-07-20 13:44:31.243791
+
+Username: Nenghajm
+Request:  transformers
+Time: 2021-07-20 20:22:20.863174
+
+Username: Nenghajm
+Request:  avengers
+Time: 2021-07-20 20:22:36.672452
+
