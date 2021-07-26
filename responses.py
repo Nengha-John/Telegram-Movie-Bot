@@ -1,39 +1,43 @@
-from datetime import datetime
-import constants as keys
-import requests as l
+#Diplay content on different ocassions
+kingsMovies = "\n\n😎<b> Endelea kufurahia burudani ya kishua kutoka King's Movies👑 🎥.</b>"
+requestText = "\n\n<b>Tumia Command zifuatazo kupata huduma zetu:</b>\n\n"
+requestText +=  '👉 <b>/request ["Jina La Movie/Series"]["Movie au Series?"]["Ya Mwaka Gani?"]</b> -> Request movie au series unayotaka\n\n'
+requestText +=  '👉 <b>/report ["Mrejesho"]</b> -> Wasilisha mrejesho na changamoto kwa Admin\n\n'
+requestText += '👉 <b>/search ["Jina la movie/series"] </b>-> Pata Taarifa fupi kuhusu movie husika\n\n'
+requestText += '👉 <b>/quote </b>-> Neno la busara kupamba siku yako☀️\n\n'
 
-# movieURL = "https://api.themoviedb.org/3/search/movie?api_key=f66022942583a57f9df36a479bd83639&query="
-# baseImgLink = "https://image.tmdb.org/t/p/w500/"
-userInputs = {}
-requests = {'q':'2'}
+quotesText = '☀️ Je, unahitaji kitu cha kupamba siku yako?\n'
+quotesText += 'Andika /quote kupata maneno ya busara kupamba siku yako😊'
 
-reportProblems = {}
-def sampleResponse(inputText):
-    userMessage = str(inputText).lower()
+welcomeText = "Habari😃,\n<b> Karibu King's Movies👑 🎥 .</b>  \n\n"
+welcomeText += "Mimi ni Dumbster, Msaidizi katika kupokea requests na kukuongoza katika Channel hii😊 "
+welcomeText += requestText
+welcomeText += ' \n\n<b>Andika /help muda wowote kupata maelekezo na msaada</b>'
+welcomeText += kingsMovies
+welcomeText += " \n \n \nAdmin : <b>@Nenghajm</b>"
 
-    if userMessage in {'hello', 'mambo','habari','hi','hey'}:
-        return keys.welcomeText
-    elif userMessage in {'/request','/report','@imdb','/report@dumbsterBot'}:
-        return keys.textNotListed
-    elif userMessage:
-        uname = update.message.from_user['username']
-        userInputs[uname]= userMessage
-    elif userMessage in {'time','time?','what is the time?'}:
-        now = datetime.now()
-        dateTime = now.strftime("%H:%M:%S, %d/%m/%y")
-        return "The time is " + str(dateTime)
-    else:
-        return keys.textNotListed
-    
-#fetch genre ids with their associated text value
-genreURL = "https://api.themoviedb.org/3/genre/movie/list?api_key=f66022942583a57f9df36a479bd83639&language=en-US"
-genreQuery = l.get(genreURL).json()
-genreList = genreQuery['genres']
-genres = {}
-#create a dictionary with key value pairs of the genre id and associated genre name
-for i in range(1,19):
-    genres[genreList[i]['id']] = genreList[i]['name']
-# for item in tryGenre:
-#     if item in genres:
-#         print(genres[item])
-print("Here")
+help = "<b>Karibu😃 , Dumbster Bot here to help you!</b>"
+help += requestText
+help += kingsMovies
+
+problemReported = "😃 Mrejesho umefikishwa kwa Admin. Tutashughulikia haraka iwezekanavyo.\n\n Asante kwa mchango wako wa thamani😊.\n"
+problemReported += kingsMovies
+
+emptyFeedback = "😢 Tafadhali kamilisha taarifa sahihi kwenye command ili tuweze kukuhudumia.\n\nAsante kwa mchango wako wa thamani😊"
+emptyFeedback += kingsMovies
+
+requestSubmitted = "😃 Request yako imewasilishwa."
+requestSubmitted += "Tutatuma mrejesho punde tutakapo ipata!"
+requestSubmitted += kingsMovies
+
+kindNotStated = "😢 Tafadhali eleza kama request yako ni movie au series."
+kindNotStated += "\n\nAndika /help kupata msaada zaidi."
+kindNotStated += kingsMovies
+
+textNotListed = "😢 Samahani, Mrejesho wako sio sahihi. "
+textNotListed += "Tafadhali pitia muongozo kwa kuandika /start kisha jaribu tena"
+textNotListed += kingsMovies
+
+
+
+

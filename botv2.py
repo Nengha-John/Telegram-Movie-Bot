@@ -2,16 +2,15 @@ import constants as keys
 from telegram.ext import *
 import responses as R
 import requests as r
-from datetime import datetime as t
 from telegram import ParseMode
 print("Bot Started")
 
 
 def startCommand(update,context):
-    update.message.reply_text(keys.welcomeText,parse_mode=ParseMode.HTML)
+    update.message.reply_text(R.welcomeText,parse_mode=ParseMode.HTML)
 
 def helpCommand(update,context):
-    update.message.reply_text(keys.help,parse_mode=ParseMode.HTML)
+    update.message.reply_text(R.help,parse_mode=ParseMode.HTML)
 
 def searchCommand(update,context):
     movieToSearch = str(update.message.text)
@@ -22,43 +21,15 @@ def searchCommand(update,context):
         #send feedback to user
         context.bot.sendPhoto(chat_id = keys.groupId, photo = photo,caption = captionText,parse_mode = ParseMode.HTML)
     else:
-        update.message.reply_text(keys.emptyFeedback,parse_mode=ParseMode.HTML) 
+        update.message.reply_text(R.emptyFeedback,parse_mode=ParseMode.HTML) 
 
-def processSearch(movieName): 
-     #fetch movie details
-    movieQuery = r.get(keys.movieSearchURL+movieName).json()
-    print(len(movieQuery))
-    for i in range(len(movieQuery)):
-         print(i)
-         #storing details in variables
-         title = movieQuery['results'][0]['original_title']
-         overview = movieQuery['results'][0]['overview']
-         posterPath = movieQuery['results'][0]['poster_path']
-         releaseDate = movieQuery['results'][0]['release_date']
-         rating = movieQuery['results'][0]['vote_average']
-         genresQuery = movieQuery['results'][0]['genre_ids']
-         # movieId = movieQuery['results'][0]['id']
-         # getTrailer = r.get()
-         genreInMovie=""
-         #extract the movie genre from the genre ids
-         for genCode in genresQuery:
-             if genCode in R.genres:
-                 genreInMovie += "#"+R.genres[genCode]+ " "
-         photo = keys.baseImgLink+posterPath
-         #returned caption and poster image
-         caption = "<b>Title:</b>  " + "<strong>"+str(title) +"</strong>"
-         caption += "\n<b>Genres: </b>"+ str(genreInMovie) + "\n"
-         caption += "\n<b>Ratings: </b>"+str(rating)
-         caption += "\n<b>Release Date: </b>"+str(releaseDate)
-         caption += "\n\n<b>Overview: </b>"+str(overview)
-         captions = [caption,photo]
-         return captions
+
 
 def recommendCommand(update,context):
     movieToFindRecommend = str(update.message.text)
     movieR = movieToFindRecommend.replace("/recommend", "")
     if movieR != "":
-        movieRecommend = r.get(keys.movieSearchURL+movieR).json()
+        movieRecommend = r.get(R.movieSearchURL+movieR).json()
         movieId = movieRecommend['results'][0]['movie_id']
 
 def reportCommand(update,context):
@@ -68,9 +39,9 @@ def reportCommand(update,context):
         username = update.message.from_user['username']
         writeReport(problem, username)
         R.reportProblems[username] = problem
-        update.message.reply_text(keys.problemReported,parse_mode=ParseMode.HTML)
+        update.message.reply_text(R.problemReported,parse_mode=ParseMode.HTML)
     else:
-        update.message.reply_text(keys.emptyFeedback,parse_mode=ParseMode.HTML)
+        update.message.reply_text(R.emptyFeedback,parse_mode=ParseMode.HTML)
 
 def requestCommand(update,context):
     requestedMovie = str(update.message.text) 
@@ -81,13 +52,13 @@ def requestCommand(update,context):
             username = update.message.from_user['username']
             R.requests[username] = movieStr
             writeRequest(movieStr, username)
-            update.message.reply_text(keys.requestSubmitted,parse_mode=ParseMode.HTML)
+            update.message.reply_text(R.requestSubmitted,parse_mode=ParseMode.HTML)
             print(f"User {update.message.from_user['username']} requested "+ movieStr)
             print(R.requests)
         else:
-            update.message.reply_text(keys.kindNotStated,parse_mode=ParseMode.HTML)
+            update.message.reply_text(R.kindNotStated,parse_mode=ParseMode.HTML)
     else:
-        update.message.reply_text(keys.emptyFeedback,parse_mode=ParseMode.HTML)
+        update.message.reply_text(R.emptyFeedback,parse_mode=ParseMode.HTML)
 
 def writeRequest(reqq,uname):
     now = t.now()
