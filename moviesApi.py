@@ -3,12 +3,19 @@
 # movie details DONE
 # movie discover DONE
 # recommendations DONE
+#movie trailers
 
 import requests as r
 import constants as keys
 print("Testing Intiated....")
 
 #Movie functions
+def getMovieTrailer(movieId):
+    trailerQuery = r.get(keys.movieTrailerURL.format(movieId)).json()
+    trailerKey = trailerQuery['results'][0]['key']
+    trailerPath = keys.baseYoutubeLink + trailerKey
+    return trailerPath
+
 def getMovieDetails(movieResult,i=0):
     #storing details in variables
     movieId = movieResult['results'][i]['id']
@@ -16,6 +23,7 @@ def getMovieDetails(movieResult,i=0):
     overview = movieResult['results'][i]['overview']
     posterPath = keys.baseImgLink + movieResult['results'][i]['poster_path']
     imagePath = keys.baseImgLink + movieResult['results'][i]['backdrop_path']
+    trailer = getMovieTrailer(movieId)
     releaseDate = movieResult['results'][i]['release_date']
     rating = movieResult['results'][i]['vote_average']
     genresInMovie = movieResult['results'][i]['genre_ids']
@@ -25,7 +33,7 @@ def getMovieDetails(movieResult,i=0):
         if genCode in keys.genreIds:
             genreList.append(keys.genreIds[genCode])
     
-    movieDetails = {'id': movieId,'title':title,'description': overview, 'poster':posterPath,'images': imagePath,'release': releaseDate,'rating': rating,'genres': genreList}
+    movieDetails = {'id': movieId,'title':title,'description': overview,'trailer': trailer, 'poster':posterPath,'images': imagePath,'release': releaseDate,'rating': rating,'genres': genreList}
     return movieDetails 
 
 def generateMovieCaption(movieD):
@@ -39,6 +47,7 @@ def generateMovieCaption(movieD):
     caption += "\n<b>Ratings: </b>"+str(movieD['rating'])
     caption += "\n<b>Release Date: </b>"+str(movieD['release'])
     caption += "\n\n<b>Overview: </b>"+str(movieD['description'])
+    caption += "\n\n<b>Trailer: </b>" + str(movieD['trailer'])
     photo = movieD['poster']
     captions = [caption,photo]
     return captions
@@ -85,6 +94,12 @@ def trendingMovies():
 
 
 #shows functions
+def getShowTrailer(showId):
+    trailerQuery = r.get(keys.showTrailerURL.format(showId)).json()
+    trailerKey = trailerQuery['results'][0]['key']
+    trailerPath = keys.baseYoutubeLink + trailerKey
+    return trailerPath
+
 def getShowDetails(showResult,j=0):
     #storing results in variable
     showId = showResult['results'][j]['id']
@@ -92,6 +107,7 @@ def getShowDetails(showResult,j=0):
     overview = showResult['results'][j]['overview']
     posterPath = keys.baseImgLink + str(showResult['results'][j]['poster_path'])
     imagePath = keys.baseImgLink + showResult['results'][j]['backdrop_path']
+    trailerPath = getShowTrailer(showId)
     releaseDate = showResult['results'][j]['first_air_date']
     rating = showResult['results'][j]['vote_average']
     genresInShow = showResult['results'][j]['genre_ids']
@@ -100,7 +116,7 @@ def getShowDetails(showResult,j=0):
     for genCode in genresInShow:
         if genCode in keys.genreIds:
             genreList.append(keys.genreIds[genCode])
-    showDetails = {'id': showId,'title':title,'description': overview, 'poster':posterPath,'images': imagePath,'release': releaseDate,'rating': rating,'genres': genreList}
+    showDetails = {'id': showId,'title':title,'description': overview, 'trailer': trailerPath, 'poster':posterPath,'images': imagePath,'release': releaseDate,'rating': rating,'genres': genreList}
     return showDetails 
 
 def generateShowCaption(showD):
@@ -114,6 +130,7 @@ def generateShowCaption(showD):
     caption += "\n<b>Ratings: </b>"+str(showD['rating'])
     caption += "\n<b>Release Date: </b>"+str(showD['release'])
     caption += "\n\n<b>Overview: </b>"+str(showD['description'])
+    caption += "\n\n<b> Trailer: </b>" + str(showD['trailer'])
     photo = showD['poster']
     captions = [caption,photo]
     return captions
@@ -159,9 +176,9 @@ def trendingShows():
     for j in range(len(showQuery['results'])):
         showT = getShowDetails(showQuery,j)
         Tshows.append(showT)
-    for l in Tshows:
-        print(l)
-        print("\n\n")
+    return Tshows
+
+searchShow('witcher')
 
 
 
