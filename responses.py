@@ -39,5 +39,9 @@ textNotListed += "Tafadhali pitia muongozo kwa kuandika /start kisha jaribu tena
 textNotListed += kingsMovies
 
 
+#Not found errors
+notFound = "No recommendations found. Check your entry and try again"
+
+testing = "DumbsterBot Testing 1 2 3...."
 
 

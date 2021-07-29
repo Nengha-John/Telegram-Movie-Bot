@@ -22,7 +22,7 @@ def getMovieDetails(movieResult,i=0):
     title = movieResult['results'][i]['original_title']
     overview = movieResult['results'][i]['overview']
     posterPath = keys.baseImgLink + movieResult['results'][i]['poster_path']
-    imagePath = keys.baseImgLink + movieResult['results'][i]['backdrop_path']
+    imagePath = keys.baseImgLink + str(movieResult['results'][i]['backdrop_path'])
     trailer = getMovieTrailer(movieId)
     releaseDate = movieResult['results'][i]['release_date']
     rating = movieResult['results'][i]['vote_average']
@@ -47,10 +47,11 @@ def generateMovieCaption(movieD):
     caption += "\n<b>Ratings: </b>"+str(movieD['rating'])
     caption += "\n<b>Release Date: </b>"+str(movieD['release'])
     caption += "\n\n<b>Overview: </b>"+str(movieD['description'])
-    caption += "\n\n<b>Trailer: </b>" + str(movieD['trailer'])
-    photo = movieD['poster']
-    captions = [caption,photo]
-    return captions
+    return caption
+
+def getTrailerLink(Dmovie):
+    return Dmovie['trailer']
+
 
 #process the searching of a movie
 def searchMovie(movieName): 
@@ -66,12 +67,7 @@ def getRecommendedMovies(movieR):
     recommendedMovies = r.get(recommendURL).json()
     recommendationsM = []
     for i in range(len(recommendedMovies)):
-        name = recommendedMovies['results'][i]['original_title']
-        description = recommendedMovies['results'][i]['overview']
-        rating = recommendedMovies['results'][i]['vote_average']
-        date = recommendedMovies['results'][i]['release_date']
-        poster = keys.baseImgLink + recommendedMovies['results'][i]['poster_path']
-        Rmovie = {'title': name,'description': description,'rating':rating,'release': date,'poster':poster}
+        Rmovie = getMovieDetails(recommendedMovies,i)
         recommendationsM.append(Rmovie)
     return recommendationsM
 
@@ -81,6 +77,7 @@ def discoverMovies():
     for j in range(len(movieQuery['results'])):
         movieD = getMovieDetails(movieQuery,j)
         Dmovies.append(movieD)
+    return Dmovies
  
 def trendingMovies():
     movieQuery = r.get(keys.movieTrendingURL).json()
@@ -88,6 +85,7 @@ def trendingMovies():
     for k in range(len(movieQuery['results'])):
         movieT = getMovieDetails(movieQuery,k)
         Tmovies.append(movieT)
+    return Tmovies
 
 
 
@@ -96,27 +94,33 @@ def trendingMovies():
 #shows functions
 def getShowTrailer(showId):
     trailerQuery = r.get(keys.showTrailerURL.format(showId)).json()
-    trailerKey = trailerQuery['results'][0]['key']
-    trailerPath = keys.baseYoutubeLink + trailerKey
+    trailerPath = ""
+    if len(trailerQuery['results']) != 0:
+        trailerKey = trailerQuery['results'][0]['key']
+        trailerPath = keys.baseYoutubeLink + trailerKey
+    else:
+        trailerPath = "https://www.youtube.com/results?search_query=" 
     return trailerPath
 
+getShowTrailer(86546)
 def getShowDetails(showResult,j=0):
-    #storing results in variable
-    showId = showResult['results'][j]['id']
-    title = showResult['results'][j]['name']
-    overview = showResult['results'][j]['overview']
-    posterPath = keys.baseImgLink + str(showResult['results'][j]['poster_path'])
-    imagePath = keys.baseImgLink + showResult['results'][j]['backdrop_path']
-    trailerPath = getShowTrailer(showId)
-    releaseDate = showResult['results'][j]['first_air_date']
-    rating = showResult['results'][j]['vote_average']
-    genresInShow = showResult['results'][j]['genre_ids']
-    genreList = []
-    #extract the movie genre from the genre ids
-    for genCode in genresInShow:
-        if genCode in keys.genreIds:
-            genreList.append(keys.genreIds[genCode])
-    showDetails = {'id': showId,'title':title,'description': overview, 'trailer': trailerPath, 'poster':posterPath,'images': imagePath,'release': releaseDate,'rating': rating,'genres': genreList}
+    if len(showResult['results']) != 0:
+        #storing results in variable
+        showId = showResult['results'][j]['id']
+        title = showResult['results'][j]['name']
+        overview = showResult['results'][j]['overview']
+        posterPath = keys.baseImgLink + str(showResult['results'][j]['poster_path'])
+        imagePath = keys.baseImgLink + str(showResult['results'][j]['backdrop_path'])
+        trailerPath = getShowTrailer(showId)
+        releaseDate = showResult['results'][j]['first_air_date']
+        rating = showResult['results'][j]['vote_average']
+        genresInShow = showResult['results'][j]['genre_ids']
+        genreList = []
+        #extract the movie genre from the genre ids
+        for genCode in genresInShow:
+            if genCode in keys.genreIds:
+                genreList.append(keys.genreIds[genCode])
+        showDetails = {'id': showId,'title':title,'description': overview, 'trailer': trailerPath, 'poster':posterPath,'images': imagePath,'release': releaseDate,'rating': rating,'genres': genreList}
     return showDetails 
 
 def generateShowCaption(showD):
@@ -130,55 +134,47 @@ def generateShowCaption(showD):
     caption += "\n<b>Ratings: </b>"+str(showD['rating'])
     caption += "\n<b>Release Date: </b>"+str(showD['release'])
     caption += "\n\n<b>Overview: </b>"+str(showD['description'])
-    caption += "\n\n<b> Trailer: </b>" + str(showD['trailer'])
-    photo = showD['poster']
-    captions = [caption,photo]
-    return captions
+    return caption
 
 def searchShow(showName):
     #fetch show details
     showQuery = r.get(keys.showSearchURL+showName).json()
     detailedShow = getShowDetails(showQuery)
     cap = generateShowCaption(detailedShow)
-    print(detailedShow)
-    print(cap)
+    return detailedShow
 
 def getRecommendedShows(showR):
     showQuery = r.get(keys.showSearchURL+showR).json()
-    showRid = showQuery['results'][0]['id']
-    print(showRid)
-    recommendURL = keys.showRecommendationURL.format(showRid)
-    recommendedShows = r.get(recommendURL).json()
-    Srecommendations = []
-    for i in range(len(recommendedShows)):
-        name = recommendedShows['results'][i]['name']
-        description = recommendedShows['results'][i]['overview']
-        rating = recommendedShows['results'][i]['vote_average']
-        date = recommendedShows['results'][i]['first_air_date']
-        poster = keys.baseImgLink + recommendedShows['results'][i]['poster_path']
-        Rmovie = {'title': name,'description': description,'rating':rating,'release': date,'poster':poster}
-        Srecommendations.append(Rmovie)
+    if len(showQuery['results']) != 0:
+         showRid = showQuery['results'][0]['id']
+         recommendURL = keys.showRecommendationURL.format(showRid)
+         recommendedShows = r.get(recommendURL).json()
+         Srecommendations = []
+         for i in range(len(recommendedShows)):
+             Rshow = getShowDetails(recommendedShows,i)
+             Srecommendations.append(Rshow)
+    else:
+        Srecommendations = []
     return Srecommendations
-
 
 def discoverShows():
     showQuery = r.get(keys.showDiscoverURL).json()
     Dshows = []
-    for j in range(len(showQuery['results'])):
-        showD = getShowDetails(showQuery,j)
-        Dshows.append(showD)
+    if len(showQuery['results']) != 0:
+        for j in range(len(showQuery['results'])):
+            showD = getShowDetails(showQuery,j)
+            Dshows.append(showD)
     return Dshows
 
 def trendingShows():
     showQuery = r.get(keys.showTrendingURL).json()
     Tshows = []
-    print(len(showQuery['results']))
     for j in range(len(showQuery['results'])):
         showT = getShowDetails(showQuery,j)
         Tshows.append(showT)
     return Tshows
 
-searchShow('witcher')
+
 
 
 
