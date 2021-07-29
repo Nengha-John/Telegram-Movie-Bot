@@ -7,13 +7,18 @@
 
 import requests as r
 import constants as keys
+import time
 print("Testing Intiated....")
 
 #Movie functions
 def getMovieTrailer(movieId):
     trailerQuery = r.get(keys.movieTrailerURL.format(movieId)).json()
-    trailerKey = trailerQuery['results'][0]['key']
-    trailerPath = keys.baseYoutubeLink + trailerKey
+    trailerPath =''
+    if len(trailerQuery['results']) != 0:
+         trailerKey = trailerQuery['results'][0]['key']
+         trailerPath = keys.baseYoutubeLink + trailerKey
+    else:
+         trailerPath = "https://www.youtube.com/results?search_query="
     return trailerPath
 
 def getMovieDetails(movieResult,i=0):
@@ -21,7 +26,8 @@ def getMovieDetails(movieResult,i=0):
     movieId = movieResult['results'][i]['id']
     title = movieResult['results'][i]['original_title']
     overview = movieResult['results'][i]['overview']
-    posterPath = keys.baseImgLink + movieResult['results'][i]['poster_path']
+    path =  movieResult['results'][i]['poster_path']
+    posterPath = getPoster(path,movieResult,i)
     imagePath = keys.baseImgLink + str(movieResult['results'][i]['backdrop_path'])
     trailer = getMovieTrailer(movieId)
     releaseDate = movieResult['results'][i]['release_date']
@@ -52,13 +58,22 @@ def generateMovieCaption(movieD):
 def getTrailerLink(Dmovie):
     return Dmovie['trailer']
 
+def getPoster(link, result,j):
+    if link is None:
+       posterPath = open('DumbsterBot/404.png','rb')
+    else:
+       posterPath = keys.baseImgLink + str(result['results'][j]['poster_path'])
+    return posterPath
 
 #process the searching of a movie
 def searchMovie(movieName): 
     #fetch movie details
     movieQuery = r.get(keys.movieSearchURL+movieName).json()
-    detailedMovie = getMovieDetails(movieQuery)
-    return detailedMovie
+    Movies = []
+    for i in range(len(movieQuery)):
+         detailedMovie = getMovieDetails(movieQuery,i)
+         Movies.append(detailedMovie)
+    return Movies
 
 def getRecommendedMovies(movieR):
     movieQuery = r.get(keys.movieSearchURL+movieR).json()
@@ -102,17 +117,18 @@ def getShowTrailer(showId):
         trailerPath = "https://www.youtube.com/results?search_query=" 
     return trailerPath
 
-getShowTrailer(86546)
+
 def getShowDetails(showResult,j=0):
     if len(showResult['results']) != 0:
         #storing results in variable
         showId = showResult['results'][j]['id']
         title = showResult['results'][j]['name']
         overview = showResult['results'][j]['overview']
-        posterPath = keys.baseImgLink + str(showResult['results'][j]['poster_path'])
+        path = showResult['results'][j]['poster_path']
+        posterPath = getPoster(path, showResult, j)
         imagePath = keys.baseImgLink + str(showResult['results'][j]['backdrop_path'])
         trailerPath = getShowTrailer(showId)
-        releaseDate = showResult['results'][j]['first_air_date']
+        releaseDate = str(showResult['results'][j]['first_air_date'])
         rating = showResult['results'][j]['vote_average']
         genresInShow = showResult['results'][j]['genre_ids']
         genreList = []
@@ -139,9 +155,11 @@ def generateShowCaption(showD):
 def searchShow(showName):
     #fetch show details
     showQuery = r.get(keys.showSearchURL+showName).json()
-    detailedShow = getShowDetails(showQuery)
-    cap = generateShowCaption(detailedShow)
-    return detailedShow
+    Shows = []
+    for i in range(len(showQuery['results'])):
+         detailedShow = getShowDetails(showQuery,i)
+         Shows.append(detailedShow)
+    return Shows
 
 def getRecommendedShows(showR):
     showQuery = r.get(keys.showSearchURL+showR).json()
@@ -173,7 +191,6 @@ def trendingShows():
         showT = getShowDetails(showQuery,j)
         Tshows.append(showT)
     return Tshows
-
 
 
 

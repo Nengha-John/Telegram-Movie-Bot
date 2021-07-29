@@ -5,7 +5,8 @@ BOT_API_KEY = "1751554864:AAFriVnMVRUjRk7EYeAbDVsNgMajSoJcyyI"
 #moviedb api key
 API_KEY = 'f66022942583a57f9df36a479bd83639'
 
-
+#requests file
+file = "DumbsterBot/request.txt"
 
 #movie api links
 movieSearchURL = "https://api.themoviedb.org/3/search/movie?api_key=%s&query="%API_KEY
