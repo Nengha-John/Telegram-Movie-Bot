@@ -60,7 +60,7 @@ def getTrailerLink(Dmovie):
 
 def getPoster(link, result,j):
     if link is None:
-       posterPath = open('DumbsterBot/404.png','rb')
+       posterPath = open('404.png','rb')
     else:
        posterPath = keys.baseImgLink + str(result['results'][j]['poster_path'])
     return posterPath
