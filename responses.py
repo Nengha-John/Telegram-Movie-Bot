@@ -4,6 +4,7 @@ requestText = "\n\n<b>Use the following commands to Explore Our Entertainment:</
 requestText += '👉  <b>/request <i>Movie Name</i></b> -->  Request a Movie or Series of your Choice and have it delivered to you\n'
 requestText += '👉  <b>/searchM <i>Movie Name</i></b> -->  Search Movie Description and Trailers\n'
 requestText += '👉  <b>/searchS <i>TV Series Name</i> </b>-->  Search TV Series Description and Trailers\n'
+requestText += '👉  <b>/searchT <i>Movie Name</i> </b>-->  Search Movie Torrent on 1337x website\n'
 requestText += '👉  <b>/recommendM <i>Movie Name</i> </b>-->  Get Movie Recommendations based on Movie Name\n'
 requestText += '👉  <b>/recommendS <i>TV Series Name</i> </b>-->  Get TV Shows Recommendations based on Movie Name\n'
 requestText += '👉  <b>/discoverM <i>Movie Name</i> </b>-->  Discover Random Movies from different times and genres\n'
