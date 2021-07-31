@@ -36,6 +36,11 @@ requestSubmitted += kingsMovies
 #Not found errors
 notFound = "Found 0 results😢 . Check your entry and try again"
 
+
+#1337x scrapper reply text skeleton
+link = "<b>Name:</b>  <i>{name}</i>\n<b>Size:</b> <i>{size}</i>\n<b>Magnet Link:\n</b> {link}"
+flink = link.format(name='john',size=19,link=12)
+
 testing = "DumbsterBot Testing 1 2 3...."
 
 
