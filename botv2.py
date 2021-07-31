@@ -9,6 +9,7 @@ from datetime import datetime as t
 import datetime as T
 import time
 import cloud as cloud
+from bs4 import BeautifulSoup 
 print("Bot Started")
 
 
@@ -207,7 +208,42 @@ def trendingSCommand(update,context):
     print("<< Total Shows Sent: " + str(len(tShows)))
     print('\n\n')
 
-
+#search a torrent
+def search1337x(update,context):
+     search = str(update.message.text)
+     item = search.replace('/searchT',"")
+     if item != '':
+         msg = update.message.reply_text("Searching..")
+         time.sleep(2)
+         URL_1337x = "https://www.1377x.to/sort-category-search/{}/Movies/size/asc/1"
+         BASE_PAGE_URL = "https://www.1377x.to"
+         #Get the search page
+         scrap = r.get(URL_1337x.format(item))
+         soup = BeautifulSoup(scrap.content,'html.parser')
+         #Get all elements containing the particular item results
+         results = soup.find_all("td",class_='coll-1 name')
+         msg.edit_text(str(len(results)) + " Results Found!")
+         time.sleep(2)
+         #Get the link to each result item and store in a list
+         movieLinks = []
+         msg.edit_text("Working on Results...")
+         for key,result in enumerate(results):
+             #Get /torrent/file-name
+             toResultLink = result.find_all('a')[1]['href']
+             name = result.find_all('a')[1].string
+             size = soup.find_all('td',class_="coll-4 size mob-uploader")[key].string
+             page = r.get(BASE_PAGE_URL + toResultLink)
+             scrapp = BeautifulSoup(page.content, 'html.parser')
+             #find the element with magnet link ans store in a variable
+             Link = scrapp.find_all('ul')[3].li.a['href']
+             time.sleep(2)
+             magnetedMovie = {'name': name,'size': size,'link': Link}
+             movieLinks.append(magnetedMovie)
+             reply = R.link.format(name=name,size=size,link=Link)
+             msg.reply_text(reply,parse_mode = ParseMode.HTML)
+             time.sleep(2)
+         return movieLinks
+         
 
 
 def requestCommand(update,context):
@@ -290,6 +326,9 @@ def main():
     #Testing scheduled messaging
     j = updater.job_queue
     j.run_daily(weeklyTrending,time= T.time(8,00), days= "4")
+
+    #Handle torrent search
+    dp.add_handler(CommandHandler('searchT',search1337x))
     dp.add_handler(CommandHandler('quote',quoteCommand))
     dp.add_handler(MessageHandler(Filters.text,handleMessage))
     dp.add_error_handler(error)
