@@ -72,6 +72,7 @@ def getPoster(link, result,j):
 def searchMovie(movieName): 
     #fetch movie details
     movieQuery = r.get(keys.movieSearchURL+movieName).json()
+    print(movieQuery)
     Movies = []
     for i in range(len(movieQuery)):
          detailedMovie = getMovieDetails(movieQuery,i)
