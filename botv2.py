@@ -289,7 +289,7 @@ def handleMessage(update,context):
     print("Here")
     name = update.message.from_user['username']
     response = R.sampleResponse(text).format(name)
-    if response:
+    if response != " ":
          update.message.reply_text(response,parse_mode=ParseMode.HTML)
 
 def quoteCommand(update,context):
