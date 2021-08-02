@@ -45,7 +45,7 @@ testing = "DumbsterBot Testing 1 2 3...."
 def sampleResponse(text):
     greetings = ['hey','hello','mambo','hi','hellow']
     matusi = ['msenge','kuma','usenge','msng','kmk']
-    response = 'juma'
+    response = " "
     if text in greetings:
        response = "Hello, <b>{}</b>😊. "+ greeting
     if text in matusi:
