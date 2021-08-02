@@ -37,5 +37,6 @@ for i in range(1,19):
     genreIds[genreIdList[i]['id']] = genreIdList[i]['name']
 
 
-groupId = -570113497
+groupId = -1001553584210
+requestGroupId = -562030779 
 

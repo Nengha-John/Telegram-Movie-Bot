@@ -1,5 +1,5 @@
 #Diplay content on different ocassions
-kingsMovies = "\n\n<b>King's Movies,\nYour Entertainment Partner!😎.\n<b>Help Us Grow😊 : 0684274128</b>\nAdmin: @dumbster0 </b>"
+kingsMovies = "\n\n<b>King's Movies,\nYour Entertainment Partner!😎.\n<b>Help Us Grow😊 : 0684274128</b>\nAdmin: @dumbster1 </b>"
 requestText = "\n\n<b>Use the following commands to Explore Our Entertainment:</b>\n\n"
 requestText += '👉  <b>/request <i>Movie Name</i></b> -->  Request a Movie or Series of your Choice and have it delivered to you\n'
 requestText += '👉  <b>/searchM <i>Movie Name</i></b> -->  Search Movie Description and Trailers\n'
@@ -22,7 +22,7 @@ welcomeText += kingsMovies
 
 
 help = "<b>DumbsterBot here to help you!</b>"
-help += "\n\n<b> For any inconviniences, report to Admin @dumbster0</b>\n"
+help += "\n\n<b> For any inconviniences, report to Admin @dumbster1</b>\n"
 help += requestText
 help += kingsMovies
 
@@ -36,12 +36,20 @@ requestSubmitted += kingsMovies
 
 #Not found errors
 notFound = "Found 0 results😢 . Check your entry and try again"
-
-
+greeting = "\n Welcome to Kings Movies 👑 🎥. \nType /start to get started.\n\n "
+offensive = " Offensive language is not allowed in our group. It could lead to permanent barn from group"
 #1337x scrapper reply text skeleton
-link = "<b>Name:</b>  <i>{name}</i>\n<b>Size:</b> <i>{size}</i>\n<b>Magnet Link:\n</b> {link}"
-flink = link.format(name='john',size=19,link=12)
-
+link = "<b>Name:</b>  <i>{name}</i>\n<b>Size:</b> <i>{size}</i>\n<b>Seeders:</b> <i>{seed}</i>\n<b>Leechers:</b> <i>{leech}</i>\n <b>Magnet Link:\n\n</b> <a>{link}</a>"
 testing = "DumbsterBot Testing 1 2 3...."
+
+def sampleResponse(text):
+    greetings = ['hey','hello','mambo','hi','hellow']
+    matusi = ['msenge','kuma','usenge','msng','kmk']
+    response = 'juma'
+    if text in greetings:
+       response = "Hello, <b>{}</b>😊. "+ greeting
+    if text in matusi:
+       response = "Sorry <b>{}</b>😢. " + offensive
+    return response
 
 
