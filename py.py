@@ -1,3 +1,5 @@
+# TESTING PLAYGROUND NO ACTUAL FUNCTIONALITY
+
 import requests as l
 import datetime
 import time
@@ -22,5 +24,8 @@ import time
 #        sleep(.5)
 
 from time import sleep
-
+greetings = ['hey','hello','mambo','hi','hellow']
+test = "hey"
+if  test in greetings:
+    print(test)
 

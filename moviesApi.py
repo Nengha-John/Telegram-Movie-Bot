@@ -30,7 +30,10 @@ def getMovieDetails(movieResult,i=0):
     posterPath = getPoster(path,movieResult,i)
     imagePath = keys.baseImgLink + str(movieResult['results'][i]['backdrop_path'])
     trailer = getMovieTrailer(movieId)
-    releaseDate = movieResult['results'][i]['release_date']
+    try:
+        releaseDate = movieResult['results'][i]['release_date']
+    except:
+        releaseDate = " "
     rating = movieResult['results'][i]['vote_average']
     genresInMovie = movieResult['results'][i]['genre_ids']
     genreList = []
@@ -128,7 +131,10 @@ def getShowDetails(showResult,j=0):
         posterPath = getPoster(path, showResult, j)
         imagePath = keys.baseImgLink + str(showResult['results'][j]['backdrop_path'])
         trailerPath = getShowTrailer(showId)
-        releaseDate = str(showResult['results'][j]['first_air_date'])
+        try:
+            releaseDate = str(showResult['results'][j]['first_air_date'])
+        except:
+            releaseDate = " "
         rating = showResult['results'][j]['vote_average']
         genresInShow = showResult['results'][j]['genre_ids']
         genreList = []

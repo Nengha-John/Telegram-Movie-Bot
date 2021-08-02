@@ -8,7 +8,6 @@ from telegram import ParseMode
 from datetime import datetime as t
 import datetime as T
 import time
-import cloud as cloud
 from bs4 import BeautifulSoup 
 print("Bot Started")
 
@@ -40,6 +39,7 @@ def searchMCommand(update,context):
                   trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(movieResult[i]))]])
                   #send feedback to user
                   context.bot.sendPhoto(chat_id = keys.groupId, photo = movieResult[i]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
+                  time.sleep(2)
              print("<< Movie Sent.")
              print('\n\n')
         else:
@@ -67,6 +67,7 @@ def searchSCommand(update,context):
                  trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(showResult[i]))]])
                  #send feedback to user
                  context.bot.sendPhoto(chat_id = keys.groupId, photo = showResult[i]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
+                 time.sleep(2)
             print("<< Show sent.")
             print('\n\n')
         else:
@@ -83,7 +84,7 @@ def recommendMCommand(update,context):
     if movieR != "":
         print('\n\n')
         print(">> Fetching Recommendations <<< "+movieR.upper()+" >>>")
-        msg = update.message.reply_text("Findind Recommendations...")
+        msg = update.message.reply_text("Finding Recommendations...")
         recommendedMovies = api.getRecommendedMovies(movieR)
         time.sleep(2)
         if len(recommendedMovies) != 0:
@@ -113,7 +114,7 @@ def recommendSCommand(update,context):
         print(">> Fetching Recommendations <<< "+showR.upper()+" >>>")
         msg = update.message.reply_text("Finding Recommendations...")
         recommendedShows = api.getRecommendedShows(showR)
-        time.sleep(2)
+        time.sleep(3)
         if len(recommendedShows) != 0:
             msg.edit_text(str(len(recommendedShows)) + " Recommendation(s) Found")
             time.sleep(2)
@@ -177,14 +178,14 @@ def discoverSCommand(update,context):
 def trendingMCommand(update,context):
     print('\n\n')
     print(">> Fetching Trending Movies")
-    msg.update.message.reply_text("Fetching Trending Movies...")
+    msg = update.message.reply_text("Fetching Trending Movies...")
     tMovies = api.trendingMovies()
     time.sleep(3)
     print(">> Trending Movies Found "+ str(len(tMovies)))
     msg.edit_text(str(len(tMovies)) + " Trending Movie(s) Found!")
     for i in range(len(tMovies)):
         caption = api.generateShowCaption(tMovies[i])
-        trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(showResult))]])
+        trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(tMovies[i]))]])
         context.bot.sendPhoto(chat_id = keys.groupId, photo = tMovies[i]['poster'],caption = caption, reply_markup = trailer,parse_mode = ParseMode.HTML)
         print(">> Sending trending Movie: "+ str(i + 1))
         time.sleep(2)
@@ -215,7 +216,7 @@ def search1337x(update,context):
      if item != '':
          msg = update.message.reply_text("Searching..")
          time.sleep(2)
-         URL_1337x = "https://www.1377x.to/sort-category-search/{}/Movies/size/asc/1"
+         URL_1337x = "https://www.1377x.to/sort-category-search/{}/Movies/seeders/desc/1"
          BASE_PAGE_URL = "https://www.1377x.to"
          #Get the search page
          scrap = r.get(URL_1337x.format(item))
@@ -232,14 +233,16 @@ def search1337x(update,context):
              toResultLink = result.find_all('a')[1]['href']
              name = result.find_all('a')[1].string
              size = soup.find_all('td',class_="coll-4 size mob-uploader")[key].string
+             seeder = soup.find_all('td',class_="coll-2 seeds")[key].string
+             leechers =  soup.find_all('td',class_="coll-3 leeches")[key].string
              page = r.get(BASE_PAGE_URL + toResultLink)
              scrapp = BeautifulSoup(page.content, 'html.parser')
              #find the element with magnet link ans store in a variable
              Link = scrapp.find_all('ul')[3].li.a['href']
-             time.sleep(2)
-             magnetedMovie = {'name': name,'size': size,'link': Link}
+            #  time.sleep(2)
+             magnetedMovie = {'name': name,'size': size,'link': Link,'seeds': seeder,'leeches': leechers}
              movieLinks.append(magnetedMovie)
-             reply = R.link.format(name=name,size=size,link=Link)
+             reply = R.link.format(name=name,size=size,link=Link,seed=seeder,leech=leechers)
              msg.reply_text(reply,parse_mode = ParseMode.HTML)
              time.sleep(2)
          return movieLinks
@@ -252,24 +255,30 @@ def requestCommand(update,context):
     list =['movie','series']
     if movieStr != "":
         username = update.message.from_user['username']
+        now = t.now()
+        requestTime = now.strftime("%H:%M:%S, %d/%m/%y")
+        request = '<b>Username: </b><i>'+str(username)+"</i>\n<b>Request: </b><i>"+str(movieStr)+ "</i>\n<b>Time: </b><i>"+ str(requestTime) + "</i>"
+        context.bot.send_message(text=request,chat_id = keys.requestGroupId,parse_mode = ParseMode.HTML)
+        time.sleep(5)
         print('\n\n')
         print(">> Requested movie : "+ movieStr.upper())
-        writeRequest(movieStr, username)
+        # writeRequest(reqq=movieStr, uname=username)
         update.message.reply_text(R.requestSubmitted,parse_mode=ParseMode.HTML)
     else:
         update.message.reply_text(R.emptyFeedback,parse_mode=ParseMode.HTML)
 
-def writeRequest(reqq,uname):
+def writeRequest(data):
     now = t.now()
-    requestTime = now.strftime("%H:%M:%S, %d/%m/%y")
+    
     try:
         file = open(keys.file,'a') 
-        file.write('Username: '+str(uname)+"\nRequest: "+str(reqq)+ "\nTime: "+ str(now))
+        file.write(data)
         file.write('\n\n')
         file.flush()
         file.close()
-        data = {'Username': uname,'Request': reqq,'Time': str(now)}
-        cloud.storeToCloud(data)
+        # data = {'Username': uname,'Request': reqq,'Time': str(now)}
+        # cloud.storeToCloud(data)
+       
         print("<< Write successfull")
         print('\n\n')
     except IOError as error:
@@ -277,7 +286,9 @@ def writeRequest(reqq,uname):
 
 def handleMessage(update,context):
     text = str(update.message.text).lower()
-    response = R.sampleResponse(text)
+    print("Here")
+    name = update.message.from_user['username']
+    response = R.sampleResponse(text).format(name)
     update.message.reply_text(response,parse_mode=ParseMode.HTML)
 
 def quoteCommand(update,context):
@@ -299,9 +310,15 @@ def weeklyTrending(context:CallbackContext):
         time.sleep(10)
         trendingSCommand()
 
+# def sendMessages(message):
+#     tries = 0
+#     maxTries = 10
+#     retry_delays = 10
+#     while tries < maxTries:
+#         try
 
 def main():
-    updater = Updater(keys.BOT_API_KEY, use_context=True)
+    updater = Updater(keys.BOT_API_KEY, use_context=True,request_kwargs={'read_timeout':15,'connect_timeout': 15})
     dp = updater.dispatcher
     dp.add_handler(CommandHandler('start', startCommand))
     dp.add_handler(CommandHandler('help', helpCommand))
@@ -329,6 +346,8 @@ def main():
 
     #Handle torrent search
     dp.add_handler(CommandHandler('searchT',search1337x))
+
+
     dp.add_handler(CommandHandler('quote',quoteCommand))
     dp.add_handler(MessageHandler(Filters.text,handleMessage))
     dp.add_error_handler(error)

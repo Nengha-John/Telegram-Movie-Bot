@@ -96,3 +96,103 @@ Username: Nenghajm
 Request:  black widow
 Time: 2021-07-29 19:12:50.312488
 
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:32:57.159569
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:38:41.790979
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:39:10.822339
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:41:18.125659
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:42:28.570764
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:46:55.546701
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:49:21.605890
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:49:49.217753
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:50:13.477908
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:50:37.539555
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:53:49.732242
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:56:57.292875
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 22:59:34.320250
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 23:00:28.120404
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 23:03:11.512363
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 23:11:37.851928
+
+Username: dumbster0
+Request:  money heist
+Time: 2021-07-31 23:12:17.964786
+
+Username: dumbster0
+Request:  awake
+Time: 2021-08-01 12:16:49.678882
+
+Username: dumbster0
+Request:  awake
+Time: 2021-08-01 12:23:54.535717
+
+Username: dumbster0
+Request:  awake
+Time: 2021-08-01 12:25:29.379022
+
+Username: dumbster0
+Request:  awake
+Time: 2021-08-01 12:26:16.605589
+
+Username: dumbster0
+Request:  awake
+Time: 2021-08-01 12:26:50.647222
+
+Username: dumbster0
+Request:  awake
+Time: 2021-08-01 12:27:06.677291
+
+Username: dumbster0
+Request:  awake
+Time: 2021-08-01 12:27:43.139962
+
+Username: dumbster0
+Request:  awake
+Time: 2021-08-01 12:29:55.988480
+
