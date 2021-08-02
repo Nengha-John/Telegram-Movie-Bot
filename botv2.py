@@ -238,7 +238,7 @@ def search1337x(update,context):
              page = r.get(BASE_PAGE_URL + toResultLink)
              scrapp = BeautifulSoup(page.content, 'html.parser')
              #find the element with magnet link ans store in a variable
-             Link = scrapp.find_all('ul')[3].li.a
+             Link = scrapp.find_all('ul')[3].li.a['href']
             #  time.sleep(2)
              magnetedMovie = {'name': name,'size': size,'link': Link,'seeds': seeder,'leeches': leechers}
              movieLinks.append(magnetedMovie)
