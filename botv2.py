@@ -114,7 +114,7 @@ def recommendSCommand(update,context):
         print(">> Fetching Recommendations <<< "+showR.upper()+" >>>")
         msg = update.message.reply_text("Finding Recommendations...")
         recommendedShows = api.getRecommendedShows(showR)
-        time.sleep(3)
+        time.sleep(2)
         if len(recommendedShows) != 0:
             msg.edit_text(str(len(recommendedShows)) + " Recommendation(s) Found")
             time.sleep(2)
@@ -141,7 +141,7 @@ def discoverMCommand(update,context):
     print(">> Discovering Movies")
     msg = update.message.reply_text("Discovering Movies...")
     dMovies = api.discoverMovies()
-    time.sleep(3)
+    time.sleep(2)
     print(">> Movies Discovered: "+ str(len(dMovies)))
     msg.edit_text(str(len(dMovies)) + " Movie(s) Discovered")
     for i in range(len(dMovies)):
@@ -159,7 +159,7 @@ def discoverSCommand(update,context):
     print(">> Discovering Shows")
     msg = update.message.reply_text("Discovering Shows...")
     dShows = api.discoverShows()
-    time.sleep(3)
+    time.sleep(2)
     print(">> Discovered  Shows: "+ str(len(dShows)))
     msg.edit_text(str(len(dShows)) + " Show(s) Discovered")
     for i in range(len(dShows)):
@@ -180,7 +180,7 @@ def trendingMCommand(update,context):
     print(">> Fetching Trending Movies")
     msg = update.message.reply_text("Fetching Trending Movies...")
     tMovies = api.trendingMovies()
-    time.sleep(3)
+    time.sleep(2)
     print(">> Trending Movies Found "+ str(len(tMovies)))
     msg.edit_text(str(len(tMovies)) + " Trending Movie(s) Found!")
     for i in range(len(tMovies)):
