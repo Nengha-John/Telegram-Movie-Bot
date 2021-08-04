@@ -243,7 +243,7 @@ def search1337x(update,context):
              magnetedMovie = {'name': name,'size': size,'link': Link,'seeds': seeder,'leeches': leechers}
              movieLinks.append(magnetedMovie)
              reply = R.link.format(name=name,size=size,link=Link,seed=seeder,leech=leechers)
-             msg.reply_text(text= reply + "<a href='google.com'>Click here</a>,parse_mode = ParseMode.HTML)
+             msg.reply_text(text= reply,parse_mode = ParseMode.HTML)
              time.sleep(2)
          return movieLinks
          
