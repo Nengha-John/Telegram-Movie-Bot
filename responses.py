@@ -39,7 +39,7 @@ notFound = "Found 0 results😢 . Check your entry and try again"
 greeting = "\n Welcome to Kings Movies 👑 🎥. \nType /start to get started.\n\n "
 offensive = " Offensive language is not allowed in our group. It could lead to permanent barn from group"
 #1337x scrapper reply text skeleton
-link = "<b>Name:</b>  <i>{name}</i>\n<b>Size:</b> <i>{size}</i>\n<b>Seeders:</b> <i>{seed}</i>\n<b>Leechers:</b> <i>{leech}</i>\n <b>Magnet Link:\n\n</b> {link}"
+link = "<b>Name:</b>  <i>{name}</i>\n<b>Size:</b> <i>{size}</i>\n<b>Seeders:</b> <i>{seed}</i>\n<b>Leechers:</b> <i>{leech}</i>\n <b>Magnet Link:\n\n</b> <a href={link}>Click here to download</a>s"
 testing = "DumbsterBot Testing 1 2 3...."
 
 def sampleResponse(text):
