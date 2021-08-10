@@ -28,7 +28,7 @@ def getMovieDetails(movieResult,i=0):
         movie[key] = value
     
     if movie['poster_path'] is None:
-        posterPath = open('DumbsterBot/404.png','rb')
+        posterPath = open('./404.png','rb')
     else:
         posterPath = keys.baseImgLink + str(movie['poster_path'])
     genreList = []
@@ -122,7 +122,7 @@ def getShowDetails(showResult,j=0):
             show[key] = value
     
         if show['poster_path'] is None:
-            posterPath = open('DumbsterBot/404.png','rb')
+            posterPath = open('./404.png','rb')
         else:
             posterPath = keys.baseImgLink + str(show['poster_path'])
         genreList = []
