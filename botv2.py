@@ -382,7 +382,8 @@ def handleMessage(update,context):
     text = str(update.message.text).lower()
     name = update.message.from_user['username']
     response = R.sampleResponse(text).format(name)
-    update.message.reply_text(response,parse_mode=ParseMode.HTML)
+    if response != " ":
+         update.message.reply_text(response,parse_mode=ParseMode.HTML)
 
 def quoteCommand(update,context):
     quoteUrl = 'https://zenquotes.io/api/random/'

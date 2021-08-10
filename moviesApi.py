@@ -56,10 +56,6 @@ def generateMovieCaption(movieD):
 def getTrailerLink(Dmovie):
     return Dmovie['trailer']
 
-def getPoster(link):
-       posterPath = keys.baseImgLink + str(link)
-       return posterPath
-
 #process the searching of a movie
 def searchMovie(movieName): 
     #fetch movie details
