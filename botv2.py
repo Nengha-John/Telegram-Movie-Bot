@@ -33,8 +33,11 @@ def searchMCommand(update,context):
 
         msg = update.message.reply_text("Searching Movie...")
         movieResult = api.searchMovie(movie)
-        time.sleep(2)
-        msg.edit_text("An Error occured. Please report to Admin @dumbster1 and try again")
+        try:
+            movieResult = api.searchMovie(movie)
+        except error:
+            print(error)
+            msg.edit_text("An Error occured. Please report to Admin @dumbster1 and try again")
 
         if len(movieResult) != 0:
              msg.edit_text( str(len(movieResult)) + " Movie(s) Found")
