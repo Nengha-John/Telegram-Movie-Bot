@@ -14,6 +14,7 @@ movieRecommendationURL = "https://api.themoviedb.org/3/movie/{}/recommendations?
 movieDiscoverURL = 'https://api.themoviedb.org/3/discover/movie?api_key=%s&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate'%API_KEY
 movieTrendingURL = "https://api.themoviedb.org/3/trending/movie/week?api_key=%s&page=1"%API_KEY
 movieTrailerURL = "https://api.themoviedb.org/3/movie/{}/videos?api_key=%s&language=en-US"%API_KEY
+movieUpcomingURL = "https://api.themoviedb.org/3/movie/upcoming?api_key=%s&language=en-US"%API_KEY
 
 #show api links
 showSearchURL ='https://api.themoviedb.org/3/search/tv?api_key=%s&query='%API_KEY
@@ -21,6 +22,7 @@ showRecommendationURL = "https://api.themoviedb.org/3/tv/{}/recommendations?api_
 showDiscoverURL = "https://api.themoviedb.org/3/discover/tv?api_key=%s&language=en-US&sort_by=popularity.desc&page=1&timezone=America&include_null_first_air_dates=false&with_watch_monetization_types=flatrate"%API_KEY
 showTrendingURL = "https://api.themoviedb.org/3/trending/tv/week?api_key=%s&page=1"%API_KEY
 showTrailerURL = "https://api.themoviedb.org/3/tv/{}/videos?api_key=%s&language=en-US"%API_KEY
+
 
 #get poster image from moviesdb
 baseImgLink = "https://image.tmdb.org/t/p/w500/"

@@ -22,27 +22,22 @@ def getMovieTrailer(movieId):
     return trailerPath
 
 def getMovieDetails(movieResult,i=0):
-    #storing details in variables
-    movieId = movieResult['results'][i]['id']
-    title = movieResult['results'][i]['original_title']
-    overview = movieResult['results'][i]['overview']
-    path =  movieResult['results'][i]['poster_path']
-    posterPath = getPoster(path,movieResult,i)
-    imagePath = keys.baseImgLink + str(movieResult['results'][i]['backdrop_path'])
-    trailer = getMovieTrailer(movieId)
-    try:
-        releaseDate = movieResult['results'][i]['release_date']
-    except:
-        releaseDate = " "
-    rating = movieResult['results'][i]['vote_average']
-    genresInMovie = movieResult['results'][i]['genre_ids']
+    #storing details in dictionaries
+    movie = {}
+    for key,value in movieResult['results'][i].items():
+        movie[key] = value
+    
+    if movie['poster_path'] is None:
+        posterPath = open('DumbsterBot/404.png','rb')
+    else:
+        posterPath = keys.baseImgLink + str(movie['poster_path'])
     genreList = []
     #extract the movie genre from the genre ids
-    for genCode in genresInMovie:
+    for genCode in movie['genre_ids']:
         if genCode in keys.genreIds:
             genreList.append(keys.genreIds[genCode])
-    
-    movieDetails = {'id': movieId,'title':title,'description': overview,'trailer': trailer, 'poster':posterPath,'images': imagePath,'release': releaseDate,'rating': rating,'genres': genreList}
+    trailer = getMovieTrailer(movie['id'])
+    movieDetails = {'id': movie['id'],'title':movie['original_title'],'description': movie['overview'],'trailer': trailer, 'poster':posterPath,'images': movie['backdrop_path'],'release': movie['release_date'],'rating': movie['vote_average'],'genres': genreList}
     return movieDetails 
 
 def generateMovieCaption(movieD):
@@ -61,19 +56,12 @@ def generateMovieCaption(movieD):
 def getTrailerLink(Dmovie):
     return Dmovie['trailer']
 
-def getPoster(link, result,j):
-    if link is None:
-       posterPath = open('404.png','rb')
-    else:
-       posterPath = keys.baseImgLink + str(result['results'][j]['poster_path'])
-    return posterPath
-
 #process the searching of a movie
 def searchMovie(movieName): 
     #fetch movie details
     movieQuery = r.get(keys.movieSearchURL+movieName).json()
     Movies = []
-    for i in range(len(movieQuery)):
+    for i in range(len(movieQuery['results'])):
          detailedMovie = getMovieDetails(movieQuery,i)
          Movies.append(detailedMovie)
     return Movies
@@ -84,7 +72,7 @@ def getRecommendedMovies(movieR):
     recommendURL = keys.movieRecommendationURL.format(movieRid)
     recommendedMovies = r.get(recommendURL).json()
     recommendationsM = []
-    for i in range(len(recommendedMovies)):
+    for i in range(len(recommendedMovies['results'])):
         Rmovie = getMovieDetails(recommendedMovies,i)
         recommendationsM.append(Rmovie)
     return recommendationsM
@@ -105,8 +93,13 @@ def trendingMovies():
         Tmovies.append(movieT)
     return Tmovies
 
-
-
+def upcomingMovies():
+    movieQuery = r.get(keys.movieUpcomingURL).json()
+    Umovies = []
+    for k in range(len(movieQuery['results'])):
+        movieU = getMovieDetails(movieQuery,k)
+        Umovies.append(movieU)
+    return Umovies
 
 
 #shows functions
@@ -123,31 +116,28 @@ def getShowTrailer(showId):
 
 def getShowDetails(showResult,j=0):
     if len(showResult['results']) != 0:
-        #storing results in variable
-        showId = showResult['results'][j]['id']
-        title = showResult['results'][j]['name']
-        overview = showResult['results'][j]['overview']
-        path = showResult['results'][j]['poster_path']
-        posterPath = getPoster(path, showResult, j)
-        imagePath = keys.baseImgLink + str(showResult['results'][j]['backdrop_path'])
-        trailerPath = getShowTrailer(showId)
-        try:
-            releaseDate = str(showResult['results'][j]['first_air_date'])
-        except:
-            releaseDate = " "
-        rating = showResult['results'][j]['vote_average']
-        genresInShow = showResult['results'][j]['genre_ids']
+        #storing details in dictionaries
+        show = {}
+        for key,value in showResult['results'][j].items():
+            show[key] = value
+    
+        if show['poster_path'] is None:
+            posterPath = open('DumbsterBot/404.png','rb')
+        else:
+            posterPath = keys.baseImgLink + str(show['poster_path'])
         genreList = []
         #extract the movie genre from the genre ids
-        for genCode in genresInShow:
+        for genCode in show['genre_ids']:
             if genCode in keys.genreIds:
                 genreList.append(keys.genreIds[genCode])
-        showDetails = {'id': showId,'title':title,'description': overview, 'trailer': trailerPath, 'poster':posterPath,'images': imagePath,'release': releaseDate,'rating': rating,'genres': genreList}
+        trailerPath = getShowTrailer(show['id'])
+        imagePath = keys.baseImgLink + str(showResult['results'][j]['backdrop_path'])
+        showDetails = {'id': show['id'],'title':show['name'],'description': show['overview'], 'trailer': trailerPath, 'poster':posterPath,'images': imagePath,'release': show['first_air_date'],'rating': show['vote_average'],'genres': genreList}
     return showDetails 
 
 def generateShowCaption(showD):
     #returned caption and poster image
-    caption = "<b>Title:</b>  " + "<strong>"+str(showD['title']) +"</strong>"
+    caption = "<b>Title:</b>  " + "<strong>"+str(showD['title']) + "</strong>"
     extGenre = showD['genres']
     capGenre = ""
     for item in extGenre:
@@ -174,7 +164,7 @@ def getRecommendedShows(showR):
          recommendURL = keys.showRecommendationURL.format(showRid)
          recommendedShows = r.get(recommendURL).json()
          Srecommendations = []
-         for i in range(len(recommendedShows)):
+         for i in range(len(recommendedShows['results'])):
              Rshow = getShowDetails(recommendedShows,i)
              Srecommendations.append(Rshow)
     else:
