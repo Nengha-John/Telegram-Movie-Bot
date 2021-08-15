@@ -44,7 +44,7 @@ def searchMCommand(update,context):
              print('>>Movie Found..\n>>Generating Movie Details..')
              time.sleep(2)
 
-             for i in range(len(movieResult)):
+#              for i in range(len(movieResult)):
                   caption = api.generateMovieCaption(movieResult[i])
                   trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(movieResult[i]))]])
                   print("Movie " + str(i+1) + " of " + str(len(movieResult)) + ' sent.')
@@ -82,8 +82,8 @@ def searchSCommand(update,context):
             msg.edit_text(str(len(showResult)) + ' Show(s) found')
             time.sleep(2)
 
-            print(">>Show Found.. \n>> Generating Show Details..")
-            for i in range(len(showResult)):
+#             print(">>Show Found.. \n>> Generating Show Details..")
+#             for i in range(len(showResult)):
                  caption = api.generateShowCaption(showResult[i])
                  trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(showResult[i]))]])
                  #send feedback to user
