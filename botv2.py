@@ -40,7 +40,7 @@ def searchMCommand(update,context):
             msg.edit_text("An Error occured. Please report to Admin @dumbster1 and try again")
 
         if len(movieResult) != 0:
-             msg.edit_text( str(len(movieResult)) + " Movie(s) Found")
+             msg.edit_text( "Movie Found!!")
              print('>>Movie Found..\n>>Generating Movie Details..')
              time.sleep(2)
 
@@ -79,7 +79,7 @@ def searchSCommand(update,context):
              msg.edit_text("An Error occured. Please report to Admin @dumbster1 and try again")
 
         if len(showResult) != 0:
-            msg.edit_text(str(len(showResult)) + ' Show(s) found')
+            msg.edit_text('Show found')
             time.sleep(2)
 
 #             print(">>Show Found.. \n>> Generating Show Details..")
