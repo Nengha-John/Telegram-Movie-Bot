@@ -45,11 +45,11 @@ def searchMCommand(update,context):
              time.sleep(2)
 
 #              for i in range(len(movieResult)):
-             caption = api.generateMovieCaption(movieResult[i])
-             trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(movieResult[i]))]])
-             print("Movie " + str(i+1) + " of " + str(len(movieResult)) + ' sent.')
+             caption = api.generateMovieCaption(movieResult[0])
+             trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(movieResult[0]))]])
+#              print("Movie " + str(i+1) + " of " + str(len(movieResult)) + ' sent.')
              #send feedback to user
-             context.bot.sendPhoto(chat_id = keys.groupId, photo = movieResult[i]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
+             context.bot.sendPhoto(chat_id = keys.groupId, photo = movieResult[0]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
              time.sleep(2)
 
              print("<< Movie Sent.")
@@ -84,11 +84,11 @@ def searchSCommand(update,context):
 
 #             print(">>Show Found.. \n>> Generating Show Details..")
 #             for i in range(len(showResult)):
-            caption = api.generateShowCaption(showResult[i])
-            trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(showResult[i]))]])
+            caption = api.generateShowCaption(showResult[0])
+            trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(showResult[0]))]])
             #send feedback to user
-            context.bot.sendPhoto(chat_id = keys.groupId, photo = showResult[i]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
-            print("Movie " + str(i+1) + " of " + str(len(showResult)) + ' sent.')
+            context.bot.sendPhoto(chat_id = keys.groupId, photo = showResult[0]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
+#             print("Movie " + str(i+1) + " of " + str(len(showResult)) + ' sent.')
             time.sleep(2)
 
             print("<< Show sent.")
