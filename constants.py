@@ -41,4 +41,4 @@ for i in range(1,19):
 
 groupId = -1001553584210
 requestGroupId = -562030779 
-
+channelID = -1001505545761
