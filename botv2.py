@@ -128,7 +128,7 @@ def recommendMCommand(update,context):
             for i in range(len(recommendedMovies)):
                 caption = api.generateMovieCaption(recommendedMovies[i])
                 trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(recommendedMovies[i]))]])
-                context.bot.sendPhoto(chat_id = keys.requestGroupId, photo = recommendedMovies[i]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
+                context.bot.sendPhoto(chat_id = keys.groupID, photo = recommendedMovies[i]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
                 print(">> Sending Recommendation  "+ str(i + 1))
                 time.sleep(3)
 
@@ -167,7 +167,7 @@ def recommendSCommand(update,context):
             for i in range(len(recommendedShows)):
                 caption = api.generateShowCaption(recommendedShows[i])
                 trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(recommendedShows[i]))]])
-                context.bot.sendPhoto(chat_id = keys.requestGroupId, photo = recommendedShows[i]['poster'],caption = caption, reply_markup = trailer, parse_mode = ParseMode.HTML)
+                context.bot.sendPhoto(chat_id = keys.channelID, photo = recommendedShows[i]['poster'],caption = caption, reply_markup = trailer, parse_mode = ParseMode.HTML)
                 print(">> Sending Recommendation "+ str(i + 1))
                 time.sleep(3)
 
