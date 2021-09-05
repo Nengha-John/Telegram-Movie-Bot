@@ -59,7 +59,7 @@ def searchMCommand(update,context):
                 trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(movieResult[0]))]])
     #              print("Movie " + str(i+1) + " of " + str(len(movieResult)) + ' sent.')
                 #send feedback to user
-                context.bot.sendPhoto(chat_id = keys.playgroundId, photo = movieResult[0]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
+                context.bot.sendPhoto(chat_id = keys.groupId, photo = movieResult[0]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
                 time.sleep(2)
 
                 print("<< Movie Sent.")
@@ -145,7 +145,7 @@ def recommendMCommand(update,context):
                     for i in range(len(recommendedMovies)):
                         caption = api.generateMovieCaption(recommendedMovies[i])
                         trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(recommendedMovies[i]))]])
-                        context.bot.sendPhoto(chat_id = keys.playgroundId, photo = recommendedMovies[i]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
+                        context.bot.sendPhoto(chat_id = keys.groupId, photo = recommendedMovies[i]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
                         print(">> Sending Recommendation  "+ str(i + 1))
                         time.sleep(3)
 
@@ -284,7 +284,7 @@ def trendingMCommand(update,context):
             for i in range(len(tMovies)):
                 caption = api.generateShowCaption(tMovies[i])
                 trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(tMovies[i]))]])
-                context.bot.sendPhoto(chat_id = keys.playgroundId, photo = tMovies[i]['poster'],caption = caption, reply_markup = trailer,parse_mode = ParseMode.HTML)
+                context.bot.sendPhoto(chat_id = keys.groupId, photo = tMovies[i]['poster'],caption = caption, reply_markup = trailer,parse_mode = ParseMode.HTML)
                 print(">> Sending trending Movie: "+ str(i + 1))
                 time.sleep(2)
 
@@ -341,7 +341,7 @@ def upcomingMcommand(update,context):
         for i in range(len(uMovies)):
             caption = api.generateShowCaption(uMovies[i])
             trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(uMovies[i]))]])
-            context.bot.sendPhoto(chat_id = keys.playgroundId, photo = uMovies[i]['poster'],caption = caption, reply_markup = trailer,parse_mode = ParseMode.HTML)
+            context.bot.sendPhoto(chat_id = keys.groupId, photo = uMovies[i]['poster'],caption = caption, reply_markup = trailer,parse_mode = ParseMode.HTML)
             print(">> Sending Upcoming Movie: "+ str(i + 1))
             time.sleep(2)
 
