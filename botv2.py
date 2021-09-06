@@ -6,7 +6,7 @@ import responses as R
 import requests as r
 from telegram import ParseMode
 from datetime import datetime as t
-from datetime import timedelt
+from datetime import timedelta
 import datetime as T
 import time
 from bs4 import BeautifulSoup 
