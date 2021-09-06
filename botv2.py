@@ -6,6 +6,7 @@ import responses as R
 import requests as r
 from telegram import ParseMode
 from datetime import datetime as t
+from datetime import timedelt
 import datetime as T
 import time
 from bs4 import BeautifulSoup 
@@ -466,7 +467,7 @@ def requestCommand(update,context):
 
     if movieStr != "":
         username = update.message.from_user['first_name']
-        now = t.now() + t.timedelta(hours=3)
+        now = t.now() + timedelta(hours=3)
         requestTime = now.strftime("%H:%M:%S, %d/%m/%y")
 
         request = '<b>Username: </b><i>'+str(username)+"</i>\n<b>Request: </b><i>"+str(movieStr)+ "</i>\n<b>Time: </b><i>"+ str(requestTime) + "</i>"
