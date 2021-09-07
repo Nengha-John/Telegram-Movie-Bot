@@ -357,7 +357,7 @@ def search1337xMovie(update,context):
     uName = update.message.from_user['first_name']
     if isAdmin:
             search = str(update.message.text)
-            item = search.replace('/searcht',"")
+            item = search.replace('/searchtm',"")
             item = item.replace('@dumbsterBot','')
 
             if item != '':
@@ -411,7 +411,7 @@ def search1337xTV(update,context):
     uName = update.message.from_user['first_name']
     if isAdmin:
             search = str(update.message.text)
-            item = search.replace('/searcht',"")
+            item = search.replace('/searchts',"")
             item = item.replace('@dumbsterBot','')
 
             if item != '':
