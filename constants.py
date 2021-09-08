@@ -43,3 +43,4 @@ groupId = -1001553584210
 requestGroupId = -562030779 
 channelID = -1001505545761
 playgroundId = -555063893
+admin = 759555310
