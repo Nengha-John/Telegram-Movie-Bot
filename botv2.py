@@ -512,6 +512,51 @@ def weeklyTrending(context:CallbackContext):
         time.sleep(10)
         trendingSCommand()
 
+#search movie command
+def searchMCommandAdmin(update,context):
+    isAdmin = checkAdmin(update=update,context=context)
+    uName = update.message.from_user['first_name']
+    if isAdmin:
+        print('is Admin')
+        movieToSearch = str(update.message.text)
+        movie = movieToSearch.replace("/searchm", "")
+        movie = movie.replace('@dumbsterBot','')
+       
+        if movie:
+            print('\n\n')
+            print(">>Searching Movie <<" + movie.upper() +" >>")
+
+            msg = update.message.reply_text("Searching Movie...")
+            movieResult = api.searchMovie(movie)
+            try:
+                movieResult = api.searchMovie(movie)
+            except error:
+                print(error)
+                msg.edit_text(error)
+
+            if len(movieResult) != 0:
+                msg.edit_text( "Movie Found!!")
+                print('>>Movie Found..\n>>Generating Movie Details..')
+                time.sleep(2)
+
+    #              for i in range(len(movieResult)):
+                caption = api.generateMovieCaption(movieResult[0])
+                trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(movieResult[0]))]])
+    #              print("Movie " + str(i+1) + " of " + str(len(movieResult)) + ' sent.')
+                #send feedback to user
+                context.bot.sendPhoto(chat_id = keys.admin, photo = movieResult[0]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
+                time.sleep(2)
+
+                print("<< Movie Sent.")
+                print('\n\n')
+            else:
+                print(">>Movie not Found")
+                msg.edit_text(R.notFound,parse_mode=ParseMode.HTML) 
+        else:
+            update.message.reply_text(R.emptyFeedback,parse_mode=ParseMode.HTML) 
+    else:
+        update.message.reply_text(R.notAdmin.format(name=uName),parse_mode=ParseMode.HTML)
+
 
 
 def main():
@@ -525,6 +570,7 @@ def main():
     # Handle search commands
     dp.add_handler(CommandHandler('searchm', searchMCommand))
     dp.add_handler(CommandHandler('searchs', searchSCommand))
+    dp.add_handler(CommandHandler('searcha', searchMCommandAdmin))
 
     #Handle recommendations
     dp.add_handler(CommandHandler('recommendm', recommendMCommand))
