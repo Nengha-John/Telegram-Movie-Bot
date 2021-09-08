@@ -519,7 +519,7 @@ def searchMCommandAdmin(update,context):
     if isAdmin:
         print('is Admin')
         movieToSearch = str(update.message.text)
-        movie = movieToSearch.replace("/searchm", "")
+        movie = movieToSearch.replace("/searcha", "")
         movie = movie.replace('@dumbsterBot','')
        
         if movie:
