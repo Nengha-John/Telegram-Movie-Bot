@@ -28,7 +28,7 @@ help += ngMovies
 
 
 emptyFeedback = "😢 Please provide a Movie or Series name."
-emptyFeedback += "\n Example: /request Fast and Furious 9"
+emptyFeedback += "\n\n Example:   /request Fast and Furious 9"
 emptyFeedback += ngMovies
 
 requestSubmitted = "😃 Your request has been submitted. "
