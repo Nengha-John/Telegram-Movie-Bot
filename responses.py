@@ -1,5 +1,5 @@
 #Diplay content on different ocassions
-ngMovies = "\n\n<b>NG Movies,\nYour Entertainment Partner!😎.\n<b>Help Us Grow😊 : 0684274128</b>\nAdmin: @dumbster1 </b>"
+ngMovies = "\n\n<b>NG Movies,\nYour Entertainment Partner!😎.\n\nAdmin: @dumbster1 </b>"
 requestText = "\n\n<b>Dumbster helps to collect request and a little fun with the following commands:</b>\n\n"
 requestText += '👉  <b>/request <i>Movie Name</i></b> -->  Request a Movie or Series\n\n'
 # requestText += '👉  <b>/searchm <i>Movie Name</i></b> -->  Search Movie Description and Trailer\n\n'
@@ -33,7 +33,7 @@ emptyFeedback += ngMovies
 
 requestSubmitted = "😃 Your request has been submitted. "
 requestSubmitted += "We will process Your Request as soon as possible. Stay tuned😎!"
-requestSubmitted += ngMovies
+
 
 #Not found errors
 notFound = "Found 0 results😢 . Check your entry and try again"
