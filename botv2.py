@@ -505,6 +505,11 @@ def quoteCommand(update,context):
 
 def error(update,context,error):
     print(f"Error {context.error}")
+    
+# def newMember(update,context):
+#      for member in update.message.new_chat_members:
+#         if member.username == 'YourBot':
+#             update.message.reply_text("Hello, <b> member.username </b>😊. "+ greeting)
 
 
 def weeklyTrending(context:CallbackContext):
