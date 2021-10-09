@@ -1,12 +1,24 @@
 import requests as r
+import os
+## *********************** ##
+#Congif env variables
+## *********************** ##
 
-#telegram bot api
-BOT_API_KEY = "1751554864:AAFriVnMVRUjRk7EYeAbDVsNgMajSoJcyyI"
-#moviedb api key
-API_KEY = 'f66022942583a57f9df36a479bd83639'
 
-#requests file
-file = "DumbsterBot/request.txt"
+#Telegram Bot Api 
+#Get it from Bot Father @BotFather
+BOT_API_KEY = os.environ.get('BOT_API_KEY')
+
+#TMDB Api Key
+#Get it from developer.tmdb.org
+API_KEY = os.environ.get('TMDB_API_KEY')
+
+#Telegram Group IDs
+groupId = os.environ.get('MAIN_GROUP_ID')  #Movies group
+requestGroupId = os.environ.get('REQUESTS_GROUP_ID') #Requests Group
+channelID = os.environ.get('SERIES_CHANNEL_ID')  #Series Channel
+playgroundId = os.environ.get('TESTING_GROUP_ID')  #Testing group
+admin = os.environ.get('ADMIN_CHAT_ID')   #Admin Chat Id
 
 #movie api links
 movieSearchURL = "https://api.themoviedb.org/3/search/movie?api_key=%s&query="%API_KEY
@@ -31,7 +43,7 @@ baseYoutubeLink = "https://www.youtube.com/watch?v="
 #fetch genre ids with their associated text value
 genreURL = "https://api.themoviedb.org/3/genre/movie/list?api_key=%s&language=en-US"%API_KEY
 genreIdQuery = r.get(genreURL).json()
-genreIdList = genreIdQuery['genres']
+genreIdList = genreIdQuery['genre_ids']
 
 #create a dictionary with key value pairs of the genre id and associated genre name
 genreIds = {}
@@ -39,8 +51,4 @@ for i in range(1,19):
     genreIds[genreIdList[i]['id']] = genreIdList[i]['name']
 
 
-groupId = -1001553584210
-requestGroupId = -562030779 
-channelID = -1001505545761
-playgroundId = -555063893
-admin = 759555310
+
