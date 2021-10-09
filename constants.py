@@ -43,7 +43,7 @@ baseYoutubeLink = "https://www.youtube.com/watch?v="
 #fetch genre ids with their associated text value
 genreURL = "https://api.themoviedb.org/3/genre/movie/list?api_key=%s&language=en-US"%API_KEY
 genreIdQuery = r.get(genreURL).json()
-genreIdList = genreIdQuery['genre_ids']
+genreIdList = genreIdQuery['genres']
 
 #create a dictionary with key value pairs of the genre id and associated genre name
 genreIds = {}

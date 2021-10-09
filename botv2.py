@@ -10,6 +10,17 @@ from datetime import timedelta
 import datetime as T
 import time
 from bs4 import BeautifulSoup 
+
+#Using Python Telegram Bot Wrapper
+#Docs https://python-telegram-bot.readthedocs.io/en/stable/
+#Bot functions:
+#         - Generate Movie and Show info
+#         - Get Trending, Upcoming,Discovering and Recommendations Movie
+#         - Handle Requests
+#         - Scrap 1337x for Movie Torrents
+#         - Get Random Inspiring Quotes
+#         - Custom Chat replies
+
 print("Bot Started")
 
 
