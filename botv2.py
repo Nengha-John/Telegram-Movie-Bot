@@ -10,6 +10,9 @@ from datetime import timedelta
 import datetime as T
 import time
 from bs4 import BeautifulSoup 
+import sys,logging,colouredlogs
+colouredlogs.install()
+logging.basicConfig(format='%(asctime)s %(message)s',stream=sys.stderr, level=logging.DEBUG)
 
 #Using Python Telegram Bot Wrapper
 #Docs https://python-telegram-bot.readthedocs.io/en/stable/
@@ -21,7 +24,7 @@ from bs4 import BeautifulSoup
 #         - Get Random Inspiring Quotes
 #         - Custom Chat replies
 
-print("Bot Started")
+logging.info("Bot Started")
 
 
 def startCommand(update,context):
@@ -44,26 +47,26 @@ def searchMCommand(update,context):
     isAdmin = checkAdmin(update=update,context=context)
     uName = update.message.from_user['first_name']
     if isAdmin:
-        print('is Admin')
+        logging.info('is Admin')
         movieToSearch = str(update.message.text)
         movie = movieToSearch.replace("/searchm", "")
         movie = movie.replace('@dumbsterBot','')
        
         if movie:
             print('\n\n')
-            print(">>Searching Movie <<" + movie.upper() +" >>")
+            logging.info(">>Searching Movie <<" + movie.upper() +" >>")
 
             msg = update.message.reply_text("Searching Movie...")
             movieResult = api.searchMovie(movie)
             try:
                 movieResult = api.searchMovie(movie)
             except error:
-                print(error)
+                logging.error(error)
                 msg.edit_text(error)
 
             if len(movieResult) != 0:
                 msg.edit_text( "Movie Found!!")
-                print('>>Movie Found..\n>>Generating Movie Details..')
+                logging.info('>>Movie Found..\n>>Generating Movie Details..')
                 time.sleep(2)
 
     #              for i in range(len(movieResult)):
@@ -74,10 +77,10 @@ def searchMCommand(update,context):
                 context.bot.sendPhoto(chat_id = keys.groupId, photo = movieResult[0]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
                 time.sleep(2)
 
-                print("<< Movie Sent.")
+                logging.info("<< Movie Sent.")
                 print('\n\n')
             else:
-                print(">>Movie not Found")
+                logging.error(">>Movie not Found")
                 msg.edit_text(R.notFound,parse_mode=ParseMode.HTML) 
         else:
             update.message.reply_text(R.emptyFeedback,parse_mode=ParseMode.HTML) 
@@ -96,7 +99,7 @@ def searchSCommand(update,context):
 
             if show != "":
                 print('\n\n')
-                print(">>Searching Show <<< "+show.upper()+" >>>")
+                logging.info(">>Searching Show <<< "+show.upper()+" >>>")
 
                 msg = update.message.reply_text("Searching Show...")
                 try:
@@ -117,7 +120,7 @@ def searchSCommand(update,context):
         #             print("Movie " + str(i+1) + " of " + str(len(showResult)) + ' sent.')
                     time.sleep(2)
 
-                    print("<< Show sent.")
+                    logging.info("<< Show sent.")
                     print('\n\n')
                 else:
                     msg.edit_text(R.notFound,parse_mode=ParseMode.HTML)
@@ -139,7 +142,7 @@ def recommendMCommand(update,context):
 
             if movieR != "":
                 print('\n\n')
-                print(">> Fetching Recommendations <<< "+movieR.upper()+" >>>")
+                logging.info(">> Fetching Recommendations <<< "+movieR.upper()+" >>>")
 
                 msg = update.message.reply_text("Finding Recommendations...")
                 try:
@@ -149,19 +152,19 @@ def recommendMCommand(update,context):
 
 
                 if len(recommendedMovies) != 0:
-                    print(">> Recommendations Found: "+str(len(recommendedMovies)))
+                    logging.info(">> Recommendations Found: "+str(len(recommendedMovies)))
                     msg.edit_text(str(len(recommendedMovies)) + " Recommendation(s) Found")
                     time.sleep(2)
 
-                    print(">>Working on Recommendations")
+                    logging.info(">>Working on Recommendations")
                     for i in range(len(recommendedMovies)):
                         caption = api.generateMovieCaption(recommendedMovies[i])
                         trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(recommendedMovies[i]))]])
                         context.bot.sendPhoto(chat_id = keys.groupId, photo = recommendedMovies[i]['poster'],caption = caption,parse_mode = ParseMode.HTML,reply_markup = trailer)
-                        print(">> Sending Recommendation  "+ str(i + 1))
+                        logging.info(">> Sending Recommendation  "+ str(i + 1))
                         time.sleep(3)
 
-                    print('<< Total Recommendations Sent: ' + str(len(recommendedMovies)))
+                    logging.info('<< Total Recommendations Sent: ' + str(len(recommendedMovies)))
                     print('\n\n')
 
                 else:
@@ -183,7 +186,7 @@ def recommendSCommand(update,context):
 
             if showR != "":
                 print('\n\n')
-                print(">> Fetching Recommendations <<< "+showR.upper()+" >>>")
+                logging.info(">> Fetching Recommendations <<< "+showR.upper()+" >>>")
                 msg = update.message.reply_text("Finding Recommendations...")
                 try:
                     recommendedShows = api.getRecommendedShows(showR)
@@ -194,17 +197,17 @@ def recommendSCommand(update,context):
                     msg.edit_text(str(len(recommendedShows)) + " Recommendation(s) Found")
                     time.sleep(2)
 
-                    print(">> Recommendations Found: "+ str(len(recommendedShows)))
-                    print(">>Working on Recommendations...")
+                    logging.info(">> Recommendations Found: "+ str(len(recommendedShows)))
+                    logging.info(">>Working on Recommendations...")
 
                     for i in range(len(recommendedShows)):
                         caption = api.generateShowCaption(recommendedShows[i])
                         trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(recommendedShows[i]))]])
                         context.bot.sendPhoto(chat_id = keys.channelID, photo = recommendedShows[i]['poster'],caption = caption, reply_markup = trailer, parse_mode = ParseMode.HTML)
-                        print(">> Sending Recommendation "+ str(i + 1))
+                        logging.info(">> Sending Recommendation "+ str(i + 1))
                         time.sleep(3)
 
-                    print('<< Total Recommendations sent: ' + str(len(recommendedShows)))
+                    logging.info('<< Total Recommendations sent: ' + str(len(recommendedShows)))
                     print('\n\n')
                 else:
                     msg.edit_text(R.notFound,parse_mode=ParseMode.HTML) 
@@ -221,7 +224,7 @@ def discoverMCommand(update,context):
     uName = update.message.from_user['first_name']
     if isAdmin:
             print('\n\n')
-            print(">> Discovering Movies")
+            logging.info(">> Discovering Movies")
 
             msg = update.message.reply_text("Discovering Movies...")
             try:
@@ -230,17 +233,17 @@ def discoverMCommand(update,context):
                 msg.edit_text(error)
             
 
-            print(">> Movies Discovered: "+ str(len(dMovies)))
+            logging.info(">> Movies Discovered: "+ str(len(dMovies)))
             msg.edit_text(str(len(dMovies)) + " Movie(s) Discovered")
 
             for i in range(len(dMovies)):
                 caption = api.generateMovieCaption(dMovies[i])
                 trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(dMovies[i]))]])
                 context.bot.sendPhoto(chat_id = keys.requestGroupId, photo = dMovies[i]['poster'],caption = caption, reply_markup = trailer, parse_mode = ParseMode.HTML)
-                print(">> Sending Discovered Movie: "+ str(i + 1))
+                logging.info(">> Sending Discovered Movie: "+ str(i + 1))
                 time.sleep(2)
 
-            print("<< Total Movies Sent " + str(len(dMovies)))
+            logging.info("<< Total Movies Sent " + str(len(dMovies)))
             print('\n\n')
     else:
         update.message.reply_text(R.notAdmin.format(name=uName),parse_mode=ParseMode.HTML)
@@ -252,7 +255,7 @@ def discoverSCommand(update,context):
     uName = update.message.from_user['first_name']
     if isAdmin:
             print('\n\n')
-            print(">> Discovering Shows")
+            logging.info(">> Discovering Shows")
 
             msg = update.message.reply_text("Discovering Shows...")
             try:
@@ -261,17 +264,17 @@ def discoverSCommand(update,context):
                 msg.edit_text(error)
 
 
-            print(">> Discovered  Shows: "+ str(len(dShows)))
+            logging.info(">> Discovered  Shows: "+ str(len(dShows)))
             msg.edit_text(str(len(dShows)) + " Show(s) Discovered")
 
             for i in range(len(dShows)):
                 caption = api.generateShowCaption(dShows[i])
                 trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(dShows[i]))]])
                 context.bot.sendPhoto(chat_id = keys.requestGroupId, photo = dShows[i]['poster'],caption = caption, reply_markup = trailer, parse_mode = ParseMode.HTML)
-                print(">> Sending Discovered Movie: "+ str(i + 1))
+                logging.info(">> Sending Discovered Movie: "+ str(i + 1))
                 time.sleep(2)
 
-            print("<< Total Shows Sent: " + str(len(dShows)))
+            logging.info("<< Total Shows Sent: " + str(len(dShows)))
             print('\n\n')
     else:
         update.message.reply_text(R.notAdmin.format(name=uName),parse_mode=ParseMode.HTML)
@@ -284,23 +287,23 @@ def trendingMCommand(update,context):
     uName = update.message.from_user['first_name']
     if isAdmin:
             print('\n\n')
-            print(">> Fetching Trending Movies")
+            logging.info(">> Fetching Trending Movies")
 
             msg = update.message.reply_text("Fetching Trending Movies...")
             tMovies = api.trendingMovies()
             time.sleep(2)
 
-            print(">> Trending Movies Found "+ str(len(tMovies)))
+            logging.info(">> Trending Movies Found "+ str(len(tMovies)))
             msg.edit_text(str(len(tMovies)) + " Trending Movie(s) Found!")
 
             for i in range(len(tMovies)):
                 caption = api.generateShowCaption(tMovies[i])
                 trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(tMovies[i]))]])
                 context.bot.sendPhoto(chat_id = keys.groupId, photo = tMovies[i]['poster'],caption = caption, reply_markup = trailer,parse_mode = ParseMode.HTML)
-                print(">> Sending trending Movie: "+ str(i + 1))
+                logging.info(">> Sending trending Movie: "+ str(i + 1))
                 time.sleep(2)
 
-            print("<< Total Movies Sent " + str(len(tMovies)))
+            logging.info("<< Total Movies Sent " + str(len(tMovies)))
             print('\n\n')
     else:
         update.message.reply_text(R.notAdmin.format(name=uName),parse_mode=ParseMode.HTML)
@@ -313,24 +316,24 @@ def trendingSCommand(update,context):
     uName = update.message.from_user['first_name']
     if isAdmin:
             print('\n\n')
-            print(">> Fetching Trending Shows")
+            logging.info(">> Fetching Trending Shows")
             
             msg = update.message.reply_text("Fetching Trending Shows...")
             try:
               tShows = api.trendingShows()
             except:
                 msg.edit_text(error)
-            print(">> Trending Shows Found: "+ str(len(tShows)))
+            logging.info(">> Trending Shows Found: "+ str(len(tShows)))
             msg.edit_text(str(len(tShows)) + ' Trending Show(s) Found')
 
             for i in range(len(tShows)):
                 caption = api.generateShowCaption(tShows[i])
                 trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(tShows[i]))]])
                 context.bot.sendPhoto(chat_id = keys.channelID, photo = tShows[i]['poster'], caption = caption, reply_markup = trailer,parse_mode = ParseMode.HTML)
-                print(">> Sending Trending Show: "+ str(i + 1))
+                logging.info(">> Sending Trending Show: "+ str(i + 1))
                 time.sleep(2)
 
-            print("<< Total Shows Sent: " + str(len(tShows)))
+            logging.info("<< Total Shows Sent: " + str(len(tShows)))
             print('\n\n')
     else:
         update.message.reply_text(R.notAdmin.format(name=uName),parse_mode=ParseMode.HTML)
@@ -341,23 +344,23 @@ def upcomingMcommand(update,context):
     uName = update.message.from_user['first_name']
     if isAdmin:
         print('\n\n')
-        print(">> Fetching Upcoming Movies")
+        logging.info(">> Fetching Upcoming Movies")
 
         msg = update.message.reply_text("Fetching Upcoming Movies...")
         uMovies = api.upcomingMovies()
         time.sleep(2)
 
-        print(">> Upcoming Movies Found "+ str(len(uMovies)))
+        logging.info(">> Upcoming Movies Found "+ str(len(uMovies)))
         msg.edit_text(str(len(uMovies)) + " Upcoming Movie(s) Found!")
 
         for i in range(len(uMovies)):
             caption = api.generateShowCaption(uMovies[i])
             trailer = telegram.InlineKeyboardMarkup([[telegram.InlineKeyboardButton('Trailer',url = api.getTrailerLink(uMovies[i]))]])
             context.bot.sendPhoto(chat_id = keys.groupId, photo = uMovies[i]['poster'],caption = caption, reply_markup = trailer,parse_mode = ParseMode.HTML)
-            print(">> Sending Upcoming Movie: "+ str(i + 1))
+            logging.info(">> Sending Upcoming Movie: "+ str(i + 1))
             time.sleep(2)
 
-        print("<< Total Movies Sent " + str(len(uMovies)))
+        logging.info("<< Total Movies Sent " + str(len(uMovies)))
         print('\n\n')
     else:
         update.message.reply_text(R.notAdmin.format(name=uName),parse_mode=ParseMode.HTML)
@@ -374,7 +377,7 @@ def search1337xMovie(update,context):
             if item != '':
                 msg = update.message.reply_text("Searching..")
                 time.sleep(2)
-                print('Scrapping 1337x...')
+                logging.info('Scrapping 1337x...')
                 URL_1337x = "https://www.1377x.to/sort-category-search/{}/Movies/seeders/desc/1"
                 BASE_PAGE_URL = "https://www.1377x.to"
 
@@ -384,7 +387,7 @@ def search1337xMovie(update,context):
                 #Get all elements containing the particular item results
                 results = soup.find_all("td",class_='coll-1 name')
                 msg.edit_text(str(len(results)) + " Results Found!")
-                print("Found " + str(len(results)))
+                logging.info("Found " + str(len(results)))
                 time.sleep(2)
 
                 #Get the link to each result item and store in a list
@@ -407,7 +410,7 @@ def search1337xMovie(update,context):
                     movieLinks.append(magnetedMovie)
                     reply = R.link.format(name=name,size=size,link=Link,seed=seeder,leech=leechers)
                     msg.reply_text(reply,parse_mode = ParseMode.HTML)
-                    print("Torrent " + str(key+1) + " of " + str(len(results)) + ' sent.')
+                    logging.info("Torrent " + str(key+1) + " of " + str(len(results)) + ' sent.')
                     time.sleep(2)
             else:
                 update.message.reply_text(R.emptyFeedback,parse_mode=ParseMode.HTML)
@@ -428,7 +431,7 @@ def search1337xTV(update,context):
             if item != '':
                 msg = update.message.reply_text("Searching..")
                 time.sleep(2)
-                print('Scrapping 1337x...')
+                logging.info('Scrapping 1337x...')
                 URL_1337x = "https://www.1377x.to/sort-category-search/{}/TV/seeders/desc/1"
                 BASE_PAGE_URL = "https://www.1377x.to"
 
@@ -438,7 +441,7 @@ def search1337xTV(update,context):
                 #Get all elements containing the particular item results
                 results = soup.find_all("td",class_='coll-1 name')
                 msg.edit_text(str(len(results)) + " Results Found!")
-                print("Found " + str(len(results)))
+                logging.info("Found " + str(len(results)))
                 time.sleep(2)
 
                 #Get the link to each result item and store in a list
@@ -461,7 +464,7 @@ def search1337xTV(update,context):
                     movieLinks.append(magnetedMovie)
                     reply = R.link.format(name=name,size=size,link=Link,seed=seeder,leech=leechers)
                     msg.reply_text(reply,parse_mode = ParseMode.HTML)
-                    print("Torrent " + str(key+1) + " of " + str(len(results)) + ' sent.')
+                    logging.info("Torrent " + str(key+1) + " of " + str(len(results)) + ' sent.')
                     time.sleep(2)
             else:
                 update.message.reply_text(R.emptyFeedback,parse_mode=ParseMode.HTML)
@@ -486,7 +489,7 @@ def requestCommand(update,context):
         time.sleep(5)
 
         print('\n\n')
-        print(">> "+ username + "Requested movie : "+ movieStr.upper())
+        logging.info(">> "+ username + "Requested movie : "+ movieStr.upper())
 
         # writeRequest(reqq=movieStr, uname=username)
         update.message.reply_text(R.requestSubmitted,parse_mode=ParseMode.HTML)
@@ -515,7 +518,7 @@ def quoteCommand(update,context):
 
 
 def error(update,context,error):
-    print(f"Error {context.error}")
+    logging.error(f"Error {context.error}")
     
 # def newMember(update,context):
 #      for member in update.message.new_chat_members:
